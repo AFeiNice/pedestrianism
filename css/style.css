@@ -33,6 +33,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-h) + 12px);
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden; /* 移动端禁止横向滚动（配合 body 双重防护） */
 }
 
 body {
