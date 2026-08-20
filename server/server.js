@@ -41,6 +41,8 @@ function validate(payload) {
   const people = payload.people;
   const province = (payload.province || '').trim();
   const city = (payload.city || '').trim();
+  const needAccom = (payload.needAccom || '').trim();
+  const accomType = (payload.accomType || '').trim();
 
   if (!name || name.length > 30) errs.push('姓名无效');
   if (!/^1[3-9]\d{9}$/.test(phone)) errs.push('手机号无效');
@@ -49,9 +51,11 @@ function validate(payload) {
   if (startDate && endDate && endDate < startDate) errs.push('截止日期早于出发日期');
   const n = parseInt(people, 10);
   if (!/^\d+$/.test(String(people).trim()) || n < 1 || n > 99) errs.push('人数无效');
-  if (!province || !city) errs.push('出发城市不完整');
+  if (!province || !city) errs.push('往返城市不完整');
+  if (needAccom !== '是' && needAccom !== '否') errs.push('是否住宿无效');
+  if (needAccom === '是' && !['合租', '整间大床', '双床'].includes(accomType)) errs.push('住宿选择无效');
 
-  return { errs, data: { name, phone, startDate, endDate, people: n, province, city } };
+  return { errs, data: { name, phone, startDate, endDate, people: n, province, city, needAccom, accomType } };
 }
 
 /* ---------- 邮件 ---------- */
@@ -62,7 +66,9 @@ function buildMail(data) {
     ['预计出发日期', data.startDate],
     ['截止日期', data.endDate],
     ['人数', String(data.people)],
-    ['出发城市', data.province + ' ' + data.city]
+    ['往返城市', data.province + ' ' + data.city],
+    ['是否需要住宿', data.needAccom],
+    ['住宿选择', data.needAccom === '是' ? data.accomType : '—']
   ];
 
   const text = rows.map(([k, v]) => `${k}：${v}`).join('\n');

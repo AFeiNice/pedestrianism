@@ -619,6 +619,61 @@ select:disabled {
   font-variant-numeric: tabular-nums;
 }
 
+/* 单选组 */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.radio-option {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 84px;
+  cursor: pointer;
+}
+
+.radio-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radio-option span {
+  display: block;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 13px 14px;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease),
+    box-shadow 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.radio-option input:checked + span {
+  border-color: var(--accent);
+  background: #fff;
+  color: var(--accent-deep);
+  font-weight: 600;
+  box-shadow: 0 0 0 3px rgba(217, 164, 65, 0.18);
+}
+
+.radio-option input:focus-visible + span {
+  box-shadow: 0 0 0 3px rgba(217, 164, 65, 0.28);
+}
+
+.field.invalid .radio-option span {
+  border-color: var(--danger);
+}
+
+/* 隐藏字段（住宿类型默认收起） */
+.field.is-hidden {
+  display: none;
+}
+
 /* 按钮 */
 .btn {
   display: inline-flex;

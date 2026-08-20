@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="五台山徒步报名 —— 填写姓名、手机号、出发日期、人数与出发城市，一键报名五台山朝台徒步。" />
+  <meta name="description" content="五台山徒步报名 —— 填写姓名、手机号、出发日期、人数、往返城市与住宿需求，一键报名五台山朝台徒步。" />
   <title>五台山徒步 · 报名</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -131,7 +131,7 @@
         </div>
 
         <div class="field">
-          <label for="province">出发城市 <em>*</em></label>
+          <label for="province">往返城市 <em>*</em></label>
           <div class="field-row">
             <div class="select-wrap">
               <select id="province" name="province">
@@ -145,6 +145,40 @@
             </div>
           </div>
           <p class="field-error" id="err-city"></p>
+        </div>
+
+        <div class="field" id="needAccom-field">
+          <label>是否需要住宿 <em>*</em></label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="needAccom" value="是" />
+              <span>是</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="needAccom" value="否" />
+              <span>否</span>
+            </label>
+          </div>
+          <p class="field-error" id="err-needAccom"></p>
+        </div>
+
+        <div class="field is-hidden" id="accomType-field">
+          <label>住宿选择 <em>*</em></label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="accomType" value="合租" />
+              <span>合租</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="accomType" value="整间大床" />
+              <span>整间大床</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="accomType" value="双床" />
+              <span>双床</span>
+            </label>
+          </div>
+          <p class="field-error" id="err-accomType"></p>
         </div>
 
         <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
