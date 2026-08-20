@@ -361,6 +361,189 @@ section {
   }
 }
 
+/* ---------- 行程与费用区 ---------- */
+.tour-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.tour-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.tour-stat {
+  text-align: center;
+  background: linear-gradient(135deg, #fdf3dd, #f6e4bd);
+  border-radius: var(--radius-sm);
+  padding: 18px 8px;
+}
+
+.tour-stat-num {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent-deep);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.tour-stat-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+
+.tour-block {
+  margin-bottom: 24px;
+}
+
+.tour-block-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.tour-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tour-tag {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.tour-meetup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.tour-meetup svg {
+  flex: none;
+  color: var(--accent-deep);
+}
+
+.tour-note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #fff8ec;
+  border: 1px solid #f0dfbc;
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.tour-note svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--accent-deep);
+}
+
+@media (min-width: 560px) {
+  .tour-card {
+    padding: 40px 44px;
+  }
+  .tour-stats {
+    gap: 16px;
+  }
+  .tour-stat-num {
+    font-size: 26px;
+  }
+}
+
+/* ---------- 装备清单区 ---------- */
+.gear-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.gear-group + .gear-group {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border);
+}
+
+.gear-group-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.gear-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.gear-chip-core {
+  background: linear-gradient(135deg, #e9bd5f, #cf962f);
+  color: #fff;
+}
+
+.gear-chip-essential {
+  background: var(--bg);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.gear-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gear-tag {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+@media (min-width: 768px) {
+  .gear-card {
+    padding: 40px 44px;
+  }
+  .gear-groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .gear-group + .gear-group {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    border-left: 1px solid var(--border);
+    padding-left: 32px;
+  }
+}
+
 /* ---------- 图集轮播 ---------- */
 .gallery {
   max-width: 1200px;
