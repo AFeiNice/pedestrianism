@@ -1,0 +1,16 @@
+{
+  "name": "wutai-hiking-mailer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "五台山徒步报名 —— 邮件转发服务（Express + Nodemailer）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14"
+  }
+}

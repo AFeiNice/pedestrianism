@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="五台山徒步报名 —— 填写姓名、手机号、出发日期、人数与出发城市，一键报名五台山朝台徒步。" />
+  <title>五台山徒步 · 报名</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 固定导航栏 -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#top" class="nav-brand" aria-label="返回顶部">
+        <svg class="nav-logo" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path d="M3 21h18M5 21V10l4-3v14m6-14v14l4-3V7zM2 6l10-4 10 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>五台山徒步</span>
+      </a>
+      <div class="nav-links">
+        <a href="#intro">介绍</a>
+        <a href="#gallery">图集</a>
+        <a href="#signup">报名</a>
+      </div>
+      <a href="#signup" class="nav-cta">立即报名</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- Hero 区 -->
+    <header class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow reveal">五台山 · 华北之巅</p>
+        <h1 class="hero-title reveal">五台山徒步<br />一场身心的修行</h1>
+        <p class="hero-subtitle reveal">穿行于五座台顶之间，看云海翻涌、听梵音入耳。<br />春秋最佳，一日一山，五日圆满。</p>
+        <div class="hero-actions reveal">
+          <a href="#signup" class="btn btn-primary">报名参加</a>
+          <a href="#gallery" class="btn btn-ghost">查看图集</a>
+        </div>
+      </div>
+      <a href="#intro" class="hero-scroll" aria-label="向下滚动">
+        <span></span>
+      </a>
+    </header>
+
+    <!-- 介绍区 -->
+    <section class="intro" id="intro">
+      <div class="section-head reveal">
+        <p class="section-eyebrow">About</p>
+        <h2 class="section-title">关于五台山徒步</h2>
+      </div>
+      <div class="intro-cards">
+        <div class="intro-card reveal">
+          <div class="intro-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V7l6-4 6 4v14M6 10h12M10 21v-5h4v5"/></svg>
+          </div>
+          <h3>五台连穿</h3>
+          <p>东台望海、北台叶斗、中台翠岩、西台挂月、南台锦绣，五座台顶依序巡礼，全程约 60 公里。</p>
+        </div>
+        <div class="intro-card reveal">
+          <div class="intro-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4-8 4-8-4 8-4zM4 11v4c0 1.7 3.6 3 8 3s8-1.3 8-3v-4M4 17v4c0 1.7 3.6 3 8 3s8-1.3 8-3v-4"/></svg>
+          </div>
+          <h3>五日行程</h3>
+          <p>每日一座台顶，节奏从容。既有高山草甸的辽阔，也有古刹晨钟的宁静，适合初阶徒步者。</p>
+        </div>
+        <div class="intro-card reveal">
+          <div class="intro-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-9-9a5 5 0 019-2.6A5 5 0 0121 12c-2 4.6-9 9-9 9z"/></svg>
+          </div>
+          <h3>贴心保障</h3>
+          <p>专业领队随行、随车补给、住宿安排一站到位，让你专注在山水之间。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 图集区：图片预留 -->
+    <section class="gallery" id="gallery">
+      <div class="section-head reveal">
+        <p class="section-eyebrow">Gallery</p>
+        <h2 class="section-title">五台山掠影</h2>
+      </div>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- 占位卡片由 gallery.js 填充；将真实图片放入 assets/img/ 并命名 placeholder-1.jpg 等即可替换 -->
+      </div>
+    </section>
+
+    <!-- 报名表单区 -->
+    <section class="signup" id="signup">
+      <div class="section-head reveal">
+        <p class="section-eyebrow">Sign Up</p>
+        <h2 class="section-title">报名参加</h2>
+        <p class="section-desc">填写以下信息，提交后将自动发送至报名邮箱。</p>
+      </div>
+
+      <form class="form-card reveal" id="signup-form" novalidate>
+        <div class="field">
+          <label for="name">姓名 <em>*</em></label>
+          <input type="text" id="name" name="name" placeholder="请输入真实姓名" autocomplete="name" maxlength="30" />
+          <p class="field-error" id="err-name"></p>
+        </div>
+
+        <div class="field">
+          <label for="phone">手机号 <em>*</em></label>
+          <input type="tel" id="phone" name="phone" inputmode="numeric" placeholder="11 位手机号码" autocomplete="tel" />
+          <p class="field-error" id="err-phone"></p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="start-date">预计出发日期 <em>*</em></label>
+            <input type="date" id="start-date" name="startDate" />
+            <p class="field-error" id="err-startDate"></p>
+          </div>
+          <div class="field">
+            <label for="end-date">截止日期 <em>*</em></label>
+            <input type="date" id="end-date" name="endDate" />
+            <p class="field-error" id="err-endDate"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="people">人数 <em>*</em></label>
+          <div class="stepper">
+            <button type="button" class="stepper-btn" id="people-minus" aria-label="减少人数">−</button>
+            <input type="number" id="people" name="people" value="1" min="1" max="99" inputmode="numeric" />
+            <button type="button" class="stepper-btn" id="people-plus" aria-label="增加人数">+</button>
+          </div>
+          <p class="field-error" id="err-people"></p>
+        </div>
+
+        <div class="field">
+          <label for="province">出发城市 <em>*</em></label>
+          <div class="field-row">
+            <div class="select-wrap">
+              <select id="province" name="province">
+                <option value="">请选择省份</option>
+              </select>
+            </div>
+            <div class="select-wrap">
+              <select id="city" name="city" disabled>
+                <option value="">请先选择省份</option>
+              </select>
+            </div>
+          </div>
+          <p class="field-error" id="err-city"></p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
+          <span class="btn-label">提交报名</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+        <p class="form-feedback" id="form-feedback" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>五台山徒步 · 报名</p>
+    <p class="footer-meta">报名信息提交后将自动发送至报名邮箱。</p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/cities.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
