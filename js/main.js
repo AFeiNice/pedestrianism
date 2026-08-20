@@ -232,22 +232,22 @@
 
     if (!validateAll()) return;
 
-    var payload = {
-      name: $('#name').value.trim(),
-      phone: $('#phone').value.trim(),
-      startDate: startDate.value,
-      endDate: endDate.value,
-      people: peopleInput.value,
-      province: provinceSel.value,
-      city: citySel.value
-    };
+    var nameVal = $('#name').value.trim();
+    var params = new URLSearchParams();
+    params.append('姓名', nameVal);
+    params.append('手机号', $('#phone').value.trim());
+    params.append('预计出发日期', startDate.value);
+    params.append('截止日期', endDate.value);
+    params.append('人数', peopleInput.value);
+    params.append('出发城市', provinceSel.value + ' ' + citySel.value);
+    params.append('_subject', '五台山徒步新报名 · ' + nameVal + ' · ' + startDate.value + ' ~ ' + endDate.value);
 
     setLoading(true);
 
     fetch(window.APP_CONFIG.API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: { 'Accept': 'application/json' },
+      body: params
     })
       .then(function (res) {
         return res.json().catch(function () { return {}; }).then(function (data) {
@@ -255,7 +255,8 @@
         });
       })
       .then(function (result) {
-        if (result.ok) {
+        var succeeded = result.ok && result.data && String(result.data.success) === 'true';
+        if (succeeded) {
           showFeedback('success', '提交成功！报名信息已发送至邮箱，我们会尽快与您联系。');
           resetForm();
         } else {
@@ -263,7 +264,7 @@
         }
       })
       .catch(function () {
-        showFeedback('error', '网络异常，提交失败。请检查邮件服务是否已启动。');
+        showFeedback('error', '网络异常，提交失败，请稍后重试。');
       })
       .finally(function () {
         setLoading(false);
