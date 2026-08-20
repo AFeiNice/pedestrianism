@@ -595,7 +595,7 @@ section {
 .field-row {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
+  gap: 14px;
 }
 
 @media (min-width: 560px) {
@@ -605,15 +605,21 @@ section {
   }
 }
 
-/* 日期输入：隐藏自带图标使箭头样式统一 */
+/* 日期输入：保留原生日历图标（兼容各浏览器），统一外观 */
 .field input[type="date"] {
-  -webkit-appearance: none;
-  appearance: none;
+  appearance: auto;
+  -webkit-appearance: auto;
+  background: var(--bg);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  padding-right: 44px;
 }
 
 .field input[type="date"]::-webkit-calendar-picker-indicator {
-  cursor: pointer;
+  width: 18px;
+  height: 18px;
   opacity: 0.55;
+  cursor: pointer;
 }
 
 /* 下拉框 */
