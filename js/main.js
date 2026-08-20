@@ -70,6 +70,21 @@
 
   /* ---------------- 住宿选择联动 ---------------- */
   var accomTypeField = $('#accomType-field');
+  var accomQtyField = $('#accomQty-field');
+  var accomQtyLabel = $('#accomQty-label');
+  var accomQtyInput = $('#accom-qty');
+
+  var ACCOM_QTY_LABEL = {
+    '合租': '床铺数量（个）',
+    '整间大床': '房间数量（间）',
+    '双床': '房间数量（间）'
+  };
+
+  function selectedAccomType() {
+    var t = $('input[name="accomType"]:checked');
+    return t ? t.value : '';
+  }
+
   function toggleAccomType() {
     var need = $('input[name="needAccom"]:checked');
     var show = need && need.value === '是';
@@ -77,16 +92,76 @@
     if (!show) {
       $$('input[name="accomType"]').forEach(function (r) { r.checked = false; });
     }
+    toggleAccomQty();
   }
+
+  function toggleAccomQty() {
+    var need = $('input[name="needAccom"]:checked');
+    var type = selectedAccomType();
+    var show = need && need.value === '是' && !!type;
+    accomQtyField.classList.toggle('is-hidden', !show);
+    if (show) {
+      accomQtyLabel.innerHTML = ACCOM_QTY_LABEL[type] + ' <em>*</em>';
+    } else {
+      accomQtyInput.value = '1';
+    }
+  }
+
   $$('input[name="needAccom"]').forEach(function (r) {
     r.addEventListener('change', function () {
       toggleAccomType();
       validateField('needAccom');
       validateField('accomType');
+      validateField('accomQty');
     });
   });
   $$('input[name="accomType"]').forEach(function (r) {
-    r.addEventListener('change', function () { validateField('accomType'); });
+    r.addEventListener('change', function () {
+      toggleAccomQty();
+      validateField('accomType');
+      validateField('accomQty');
+    });
+  });
+
+  function clampQty(v) {
+    v = parseInt(v, 10);
+    if (isNaN(v)) v = 1;
+    return Math.min(99, Math.max(1, v));
+  }
+  $('#accom-qty-minus').addEventListener('click', function () {
+    accomQtyInput.value = clampQty((parseInt(accomQtyInput.value, 10) || 1) - 1);
+    validateField('accomQty');
+  });
+  $('#accom-qty-plus').addEventListener('click', function () {
+    accomQtyInput.value = clampQty((parseInt(accomQtyInput.value, 10) || 1) + 1);
+    validateField('accomQty');
+  });
+  accomQtyInput.addEventListener('change', function () {
+    accomQtyInput.value = clampQty(accomQtyInput.value);
+    validateField('accomQty');
+  });
+
+  var gearField = $('#gear-field');
+  var gearItems = $$('input[name="gear"]');
+
+  function toggleGear() {
+    var need = $('input[name="needGear"]:checked');
+    var show = need && need.value === '是';
+    gearField.classList.toggle('is-hidden', !show);
+    if (!show) {
+      gearItems.forEach(function (g) { g.checked = false; });
+    }
+  }
+
+  $$('input[name="needGear"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      toggleGear();
+      validateField('needGear');
+      validateField('gear');
+    });
+  });
+  gearItems.forEach(function (g) {
+    g.addEventListener('change', function () { validateField('gear'); });
   });
 
   /* ---------------- 日期约束 ---------------- */
@@ -177,6 +252,22 @@
       var need = $('input[name="needAccom"]:checked');
       if (!need || need.value === '否') return '';
       return $('input[name="accomType"]:checked') ? '' : '请选择住宿类型';
+    },
+    accomQty: function () {
+      var need = $('input[name="needAccom"]:checked');
+      if (!need || need.value !== '是' || !selectedAccomType()) return '';
+      var n = parseInt(accomQtyInput.value, 10);
+      if (isNaN(n) || !/^\d+$/.test(accomQtyInput.value.trim())) return '请填写数量';
+      if (n < 1 || n > 99) return '数量需在 1 ~ 99 之间';
+      return '';
+    },
+    needGear: function () {
+      return $('input[name="needGear"]:checked') ? '' : '请选择是否需要租赁穿戴设备';
+    },
+    gear: function () {
+      var need = $('input[name="needGear"]:checked');
+      if (!need || need.value !== '是') return '';
+      return $('input[name="gear"]:checked') ? '' : '请至少选择一件设备';
     }
   };
 
@@ -188,21 +279,24 @@
     people: peopleInput,
     city: null,
     needAccom: null,
-    accomType: null
+    accomType: null,
+    accomQty: accomQtyInput,
+    needGear: null,
+    gear: null
   };
 
   function validateField(key) {
     var fieldEl;
     if (key === 'city') {
       fieldEl = citySel;
-    } else if (key === 'needAccom' || key === 'accomType') {
+    } else if (key === 'needAccom' || key === 'accomType' || key === 'needGear' || key === 'gear') {
       fieldEl = $('#' + key + '-field');
     } else {
       fieldEl = fieldMap[key];
     }
     var wrap = fieldEl.closest('.field');
     var errEl = $('#err-' + key);
-    var noValue = key === 'city' || key === 'needAccom' || key === 'accomType';
+    var noValue = key === 'city' || key === 'needAccom' || key === 'accomType' || key === 'needGear' || key === 'gear';
     var message = validators[key](noValue ? '' : fieldEl.value);
     var invalid = message !== '';
     wrap.classList.toggle('invalid', invalid);
@@ -223,7 +317,7 @@
   });
 
   function validateAll() {
-    var keys = ['name', 'phone', 'startDate', 'endDate', 'people', 'city', 'needAccom', 'accomType'];
+    var keys = ['name', 'phone', 'startDate', 'endDate', 'people', 'city', 'needAccom', 'accomType', 'accomQty', 'needGear', 'gear'];
     var results = keys.map(validateField);
     var failed = keys.filter(function (k, i) { return !results[i]; });
     if (failed.length) {
@@ -231,7 +325,7 @@
       if (first === 'city') {
         provinceSel.focus();
         if (provinceSel.value && citySel.disabled === false) citySel.focus();
-      } else if (first === 'needAccom' || first === 'accomType') {
+      } else if (first === 'needAccom' || first === 'accomType' || first === 'needGear' || first === 'gear') {
         var radio = $('input[name="' + first + '"]');
         if (radio) radio.focus();
       } else {
@@ -268,8 +362,10 @@
     citySel.innerHTML = '';
     citySel.appendChild(new Option('请先选择省份', ''));
     citySel.disabled = true;
-    $$('input[name="needAccom"], input[name="accomType"]').forEach(function (r) { r.checked = false; });
+    $$('input[name="needAccom"], input[name="accomType"], input[name="needGear"]').forEach(function (r) { r.checked = false; });
+    accomQtyInput.value = '1';
     toggleAccomType();
+    toggleGear();
     $$('.field.invalid').forEach(function (el) { el.classList.remove('invalid'); });
   }
 
@@ -291,7 +387,20 @@
     params.append('是否需要住宿', needAccomEl ? needAccomEl.value : '');
     if (needAccomEl && needAccomEl.value === '是') {
       var accomTypeEl = $('input[name="accomType"]:checked');
-      params.append('住宿选择', accomTypeEl ? accomTypeEl.value : '');
+      var type = accomTypeEl ? accomTypeEl.value : '';
+      params.append('住宿选择', type);
+      var qty = parseInt(accomQtyInput.value, 10) || 1;
+      if (type === '合租') {
+        params.append('床铺数量', qty + ' 个');
+      } else if (type === '整间大床' || type === '双床') {
+        params.append('房间数量', qty + ' 间（' + type + '）');
+      }
+    }
+    var needGearEl = $('input[name="needGear"]:checked');
+    params.append('是否需要租赁穿戴设备', needGearEl ? needGearEl.value : '');
+    if (needGearEl && needGearEl.value === '是') {
+      var gearChecked = $$('input[name="gear"]:checked').map(function (g) { return g.value; });
+      if (gearChecked.length) params.append('租赁设备', gearChecked.join('、'));
     }
     params.append('_subject', '五台山徒步新报名 · ' + nameVal + ' · ' + startDate.value + ' ~ ' + endDate.value);
 

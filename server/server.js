@@ -43,6 +43,12 @@ function validate(payload) {
   const city = (payload.city || '').trim();
   const needAccom = (payload.needAccom || '').trim();
   const accomType = (payload.accomType || '').trim();
+  const accomQty = (payload.accomQty || '').trim();
+  const needGear = (payload.needGear || '').trim();
+  const gear = Array.isArray(payload.gear)
+    ? payload.gear.map((s) => String(s).trim()).filter(Boolean)
+    : String(payload.gear || '').split(/[、,，\s]+/).filter(Boolean);
+  const GEAR_ITEMS = ['登山杖', '冲锋衣', '羽绒服', '登山鞋', '睡袋', '头灯', '护膝', '雨衣', '防寒手套', '登山背包'];
 
   if (!name || name.length > 30) errs.push('姓名无效');
   if (!/^1[3-9]\d{9}$/.test(phone)) errs.push('手机号无效');
@@ -54,8 +60,15 @@ function validate(payload) {
   if (!province || !city) errs.push('往返城市不完整');
   if (needAccom !== '是' && needAccom !== '否') errs.push('是否住宿无效');
   if (needAccom === '是' && !['合租', '整间大床', '双床'].includes(accomType)) errs.push('住宿选择无效');
+  const q = parseInt(accomQty, 10);
+  if (needAccom === '是' && (!/^\d+$/.test(accomQty) || q < 1 || q > 99)) errs.push('住宿数量无效');
+  if (needGear !== '是' && needGear !== '否') errs.push('租赁设备无效');
+  if (needGear === '是') {
+    if (!gear.length) errs.push('未选择租赁设备');
+    else if (gear.some((g) => !GEAR_ITEMS.includes(g))) errs.push('租赁设备无效');
+  }
 
-  return { errs, data: { name, phone, startDate, endDate, people: n, province, city, needAccom, accomType } };
+  return { errs, data: { name, phone, startDate, endDate, people: n, province, city, needAccom, accomType, accomQty: q, needGear, gear } };
 }
 
 /* ---------- 邮件 ---------- */
@@ -68,8 +81,13 @@ function buildMail(data) {
     ['人数', String(data.people)],
     ['往返城市', data.province + ' ' + data.city],
     ['是否需要住宿', data.needAccom],
-    ['住宿选择', data.needAccom === '是' ? data.accomType : '—']
-  ];
+    ['住宿选择', data.needAccom === '是' ? data.accomType : '—'],
+    data.needAccom === '是'
+      ? [data.accomType === '合租' ? '床铺数量' : '房间数量', data.accomQty + (data.accomType === '合租' ? ' 个' : ' 间')]
+      : null,
+    ['是否需要租赁穿戴设备', data.needGear],
+    data.needGear === '是' && data.gear.length ? ['租赁设备', data.gear.join('、')] : null
+  ].filter(Boolean);
 
   const text = rows.map(([k, v]) => `${k}：${v}`).join('\n');
   const html =

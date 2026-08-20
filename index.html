@@ -81,9 +81,7 @@
         <p class="section-eyebrow">Gallery</p>
         <h2 class="section-title">五台山掠影</h2>
       </div>
-      <div class="gallery-grid" id="gallery-grid">
-        <!-- 占位卡片由 gallery.js 填充；将真实图片放入 assets/img/ 并命名 placeholder-1.jpg 等即可替换 -->
-      </div>
+      <div class="carousel" id="gallery-carousel" aria-roledescription="carousel" aria-label="五台山图集"></div>
     </section>
 
     <!-- 报名表单区 -->
@@ -181,11 +179,57 @@
           <p class="field-error" id="err-accomType"></p>
         </div>
 
+        <div class="field is-hidden" id="accomQty-field">
+          <label id="accomQty-label">床铺数量（个） <em>*</em></label>
+          <div class="stepper">
+            <button type="button" class="stepper-btn" id="accom-qty-minus" aria-label="减少数量">−</button>
+            <input type="number" id="accom-qty" name="accomQty" value="1" min="1" max="99" inputmode="numeric" />
+            <button type="button" class="stepper-btn" id="accom-qty-plus" aria-label="增加数量">+</button>
+          </div>
+          <p class="field-error" id="err-accomQty"></p>
+        </div>
+
+        <div class="field" id="needGear-field">
+          <label>是否需要租赁穿戴设备 <em>*</em></label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="needGear" value="是" />
+              <span>是</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="needGear" value="否" />
+              <span>否</span>
+            </label>
+          </div>
+          <p class="field-error" id="err-needGear"></p>
+        </div>
+
+        <div class="field is-hidden" id="gear-field">
+          <label>租赁设备 <em>*</em><span class="field-hint">（可多选）</span></label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="checkbox" name="gear" value="登山杖" /><span>登山杖</span></label>
+            <label class="radio-option"><input type="checkbox" name="gear" value="冲锋衣" /><span>冲锋衣</span></label>
+            <label class="radio-option"><input type="checkbox" name="gear" value="羽绒服" /><span>羽绒服</span></label>
+            <label class="radio-option"><input type="checkbox" name="gear" value="登山鞋" /><span>登山鞋</span></label>
+            <label class="radio-option"><input type="checkbox" name="gear" value="睡袋" /><span>睡袋</span></label>
+            <label class="radio-option"><input type="checkbox" name="gear" value="头灯" /><span>头灯</span></label>
+            <label class="radio-option"><input type="checkbox" name="gear" value="护膝" /><span>护膝</span></label>
+            <label class="radio-option"><input type="checkbox" name="gear" value="雨衣" /><span>雨衣</span></label>
+            <label class="radio-option"><input type="checkbox" name="gear" value="防寒手套" /><span>防寒手套</span></label>
+            <label class="radio-option"><input type="checkbox" name="gear" value="登山背包" /><span>登山背包</span></label>
+          </div>
+          <p class="field-error" id="err-gear"></p>
+        </div>
+
         <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
           <span class="btn-label">提交报名</span>
           <span class="btn-spinner" aria-hidden="true"></span>
         </button>
         <p class="form-feedback" id="form-feedback" role="status"></p>
+        <p class="privacy-note">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+          <span>您填写的报名信息仅供本次徒步报名使用，提交后直接发送至组织方邮箱，不会对外公开或泄露。</span>
+        </p>
       </form>
     </section>
   </main>
