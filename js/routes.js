@@ -178,6 +178,46 @@
     cards.innerHTML = html;
   }
 
+  /* ---------- 跟团费用卡 → 对应路线高亮跳转 ---------- */
+  var nameToIndex = {};
+  ROUTES.forEach(function (r, i) { nameToIndex[r.name] = i; });
+
+  function clearRouteHighlight() {
+    var els = table.querySelectorAll('.routes-col-highlight, .routes-name-highlight');
+    Array.prototype.forEach.call(els, function (el) {
+      el.classList.remove('routes-col-highlight', 'routes-name-highlight');
+    });
+    var cs = cards.querySelectorAll('.routes-card-highlight');
+    Array.prototype.forEach.call(cs, function (el) {
+      el.classList.remove('routes-card-highlight');
+    });
+  }
+
+  function highlightRoute(index) {
+    clearRouteHighlight();
+    var col = table.querySelectorAll('colgroup col')[index + 1];
+    if (col) col.classList.add('routes-col-highlight');
+    var nameCell = table.querySelectorAll('.routes-name th')[index + 1];
+    if (nameCell) nameCell.classList.add('routes-name-highlight');
+    var card = cards.querySelectorAll('.routes-card')[index];
+    if (card) card.classList.add('routes-card-highlight');
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.tour-fee'), function (fee) {
+    fee.addEventListener('click', function () {
+      var idx = nameToIndex[fee.getAttribute('data-route')];
+      if (idx === undefined) return;
+      highlightRoute(idx);
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    fee.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fee.click();
+      }
+    });
+  });
+
   renderTable();
   renderCards();
 })();
