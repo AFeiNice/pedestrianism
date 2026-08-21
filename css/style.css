@@ -59,7 +59,7 @@ svg {
 /* ---------- 滚动显现动画 ---------- */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(26px) scale(0.985);
   transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
   transition-delay: var(--reveal-delay, 0s);
   will-change: opacity, transform;
@@ -324,7 +324,7 @@ section {
   border-radius: var(--radius);
   padding: 32px 28px;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), opacity 0.9s var(--ease);
 }
 
 .intro-card:hover {
@@ -369,34 +369,47 @@ section {
   box-shadow: var(--shadow-sm);
 }
 
-.tour-stats {
+.tour-fees {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 10px;
   margin-bottom: 28px;
 }
 
-.tour-stat {
+.tour-fee {
   text-align: center;
   background: linear-gradient(135deg, #fdf3dd, #f6e4bd);
   border-radius: var(--radius-sm);
-  padding: 18px 8px;
+  padding: 18px 12px;
 }
 
-.tour-stat-num {
+.tour-fee-name {
   display: block;
-  font-size: 22px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--accent-deep);
-  letter-spacing: -0.01em;
-  white-space: nowrap;
 }
 
-.tour-stat-label {
+.tour-fee-meta {
   display: block;
   font-size: 13px;
   color: var(--text-secondary);
   margin-top: 6px;
+}
+
+.tour-fee-price {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 10px;
+}
+
+.tour-fee-unit {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-left: 2px;
 }
 
 .tour-block {
@@ -422,6 +435,30 @@ section {
   padding: 8px 16px;
   font-size: 14px;
   color: var(--text-secondary);
+}
+
+.tour-include-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.tour-include-group:last-child {
+  margin-bottom: 0;
+}
+
+.tour-include-label {
+  flex: none;
+  width: 72px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding-top: 9px;
+}
+
+.tour-include-group .tour-tags {
+  flex: 1;
 }
 
 .tour-meetup {
@@ -459,11 +496,9 @@ section {
   .tour-card {
     padding: 40px 44px;
   }
-  .tour-stats {
-    gap: 16px;
-  }
-  .tour-stat-num {
-    font-size: 26px;
+  .tour-fees {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
   }
 }
 
@@ -541,6 +576,252 @@ section {
     border-top: none;
     border-left: 1px solid var(--border);
     padding-left: 32px;
+  }
+}
+
+/* ---------- 季节出行参考区 ---------- */
+.season-sub-title {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.season-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.season-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 24px 22px;
+}
+
+.season-card-winter {
+  background: linear-gradient(160deg, #eef2f7, #f8fafc);
+}
+
+.season-card-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.season-range {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.season-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.season-list li {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 14px;
+}
+
+.season-list li:last-child {
+  border-bottom: none;
+}
+
+.season-part {
+  flex: none;
+  width: 40px;
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+
+.season-desc {
+  flex: 1;
+  color: var(--text-secondary);
+}
+
+.weather-wrap {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.weather-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.weather-table th,
+.weather-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  text-align: left;
+}
+
+.weather-table thead th {
+  font-weight: 700;
+  background: linear-gradient(135deg, #fdf3dd, #f6e4bd);
+  color: var(--accent-deep);
+}
+
+.weather-table td {
+  color: var(--text-secondary);
+}
+
+.weather-table td:first-child {
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.weather-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (min-width: 768px) {
+  .season-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------- 快速选择 · 路线建议区 ---------- */
+.routes-table-wrap {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.routes-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.routes-table th,
+.routes-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  text-align: left;
+}
+
+.routes-table thead th {
+  font-weight: 700;
+  text-align: center;
+}
+
+.routes-table thead .routes-cat th {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: #f4f5f7;
+  border-bottom: 1px solid var(--border);
+}
+
+.routes-table thead .routes-name th {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.routes-col-label {
+  width: 96px;
+}
+
+.routes-col-group {
+  background: #f5f7fc;
+}
+
+.routes-table tbody th {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  width: 96px;
+}
+
+.routes-table td {
+  color: var(--text-secondary);
+}
+
+.routes-table tbody tr.routes-audience td {
+  font-weight: 600;
+}
+
+.routes-table tbody tr:last-child th,
+.routes-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.routes-cards {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .routes-table-wrap {
+    display: none;
+  }
+  .routes-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .routes-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 22px 20px;
+  }
+  .routes-card-group {
+    background: #f7f9fd;
+  }
+  .routes-card-head {
+    margin-bottom: 14px;
+  }
+  .routes-card-cat {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .routes-card-name {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .routes-card-row {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .routes-card-row:last-child {
+    border-bottom: none;
+  }
+  .routes-card-row dt {
+    flex: none;
+    width: 76px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .routes-card-row dd {
+    flex: 1;
+    margin: 0;
+    color: var(--text-secondary);
   }
 }
 
@@ -708,6 +989,7 @@ section {
 
 .field {
   margin-bottom: 22px;
+  min-width: 0; /* 允许 grid/flex 中收缩，避免原生控件固有宽度把行撑破 */
 }
 
 .field label {
@@ -793,9 +1075,13 @@ section {
 .field input[type="date"] {
   appearance: auto;
   -webkit-appearance: auto;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   background: var(--bg);
   border: 1.5px solid transparent;
   border-radius: var(--radius-sm);
+  padding: 13px 14px;
   padding-right: 44px;
 }
 
@@ -1087,3 +1373,128 @@ select:disabled {
     border-radius: 22px;
   }
 }
+
+/* ---------- 卡片动效（Apple 风格） ---------- */
+/* 滚动浮现：卡片逐张错落出现，避免同时涌现 */
+.intro-cards .reveal:nth-child(2) { --reveal-delay: 0.12s; }
+.intro-cards .reveal:nth-child(3) { --reveal-delay: 0.24s; }
+.season-cards .reveal:nth-child(2) { --reveal-delay: 0.12s; }
+.season-cards .reveal:nth-child(3) { --reveal-delay: 0.24s; }
+
+/* 轻按反馈（移动端）：按下轻微缩小、松开回弹；并消除 iOS 点击灰色高亮 */
+.intro-card,
+.season-card,
+.routes-card,
+.tour-fee {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), opacity 0.9s var(--ease);
+}
+.intro-card:active,
+.season-card:active,
+.routes-card:active,
+.tour-fee:active {
+  transform: scale(0.97);
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease), opacity 0.9s var(--ease);
+}
+
+/* 桌面悬停：卡片上浮 + 阴影（补齐统一手感） */
+.season-card:hover,
+.routes-card:hover,
+.tour-fee:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ---------- 常见问题 ---------- */
+.faq-list {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.faq-item {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: box-shadow 0.5s var(--ease), opacity 0.9s var(--ease);
+}
+.faq-item:hover {
+  box-shadow: var(--shadow-lg);
+}
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 600;
+  -webkit-user-select: none;
+  user-select: none;
+  transition: background 0.25s var(--ease);
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item summary:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+.faq-q {
+  flex: none;
+  min-width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #e9bd5f, #cf962f);
+}
+.faq-question {
+  flex: 1;
+}
+.faq-toggle {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  position: relative;
+  color: var(--text-secondary);
+  transition: transform 0.35s var(--ease), color 0.35s var(--ease);
+}
+.faq-toggle::before,
+.faq-toggle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 1.6px;
+  background: currentColor;
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+}
+.faq-toggle::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+.faq-item[open] .faq-toggle {
+  transform: rotate(45deg);
+  color: var(--accent-deep);
+}
+.faq-answer {
+  margin: 0;
+  padding: 2px 18px 18px 64px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.faq-list .reveal:nth-child(2) { --reveal-delay: 0.08s; }
+.faq-list .reveal:nth-child(3) { --reveal-delay: 0.16s; }
+.faq-list .reveal:nth-child(4) { --reveal-delay: 0.24s; }
