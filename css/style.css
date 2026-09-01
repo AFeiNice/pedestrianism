@@ -1652,3 +1652,115 @@ select:disabled {
   border: 1.5px solid rgba(233, 189, 95, 0.85);
   box-shadow: 0 0 0 4px rgba(233, 189, 95, 0.14), var(--shadow-sm);
 }
+
+/* ---------- 固定悬浮 · 徒步组队群 ---------- */
+.float-group {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 900;
+  opacity: 0;
+  transform: translateY(14px) scale(0.97);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), visibility 0.5s;
+}
+.float-group.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  visibility: visible;
+}
+.float-group-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px 9px 9px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.06);
+  -webkit-tap-highlight-color: transparent;
+}
+.float-group-icon {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--accent-gradient);
+}
+.float-group-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+.float-group-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+.float-group-id {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.float-group-id strong {
+  color: var(--accent-deep);
+  font-weight: 700;
+}
+.float-group-copy {
+  flex: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent-gradient);
+  border: none;
+  border-radius: 980px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), background 0.2s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.float-group-copy:active {
+  transform: scale(0.95);
+}
+.float-group-copy.copied {
+  background: var(--success);
+}
+.float-group-close {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 21px;
+  height: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: #3a3a3c;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  -webkit-tap-highlight-color: transparent;
+}
+@media (max-width: 480px) {
+  .float-group {
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  .float-group-card {
+    padding: 8px 10px 8px 8px;
+  }
+  .float-group-icon {
+    width: 34px;
+    height: 34px;
+  }
+}

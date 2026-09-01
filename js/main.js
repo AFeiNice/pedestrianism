@@ -455,10 +455,9 @@
       var gearChecked = $$('input[name="gear"]:checked').map(function (g) { return g.value; });
       if (gearChecked.length) params.append('租赁设备', gearChecked.join('、'));
     }
-    if (channelSrc) params.append('来源渠道', channelSrc);
-    if (channelPhone) params.append('来源渠道电话', channelPhone);
     var referrer = $('#referrer').value.trim();
     if (referrer) params.append('推荐人', referrer);
+    if (channelPhone) params.append('推荐人电话', channelPhone);
     params.append('_subject', '五台山徒步新报名 · ' + nameVal + ' · ' + startDate.value + ' ~ ' + endDate.value);
 
     setLoading(true);
@@ -489,4 +488,51 @@
         setLoading(false);
       });
   });
+
+  /* ---------------- 固定悬浮 · 徒步组队群微信（默认常显，可关闭） ---------------- */
+  var floatGroup = $('#float-group');
+  if (floatGroup) {
+    var floatClosed = false;
+    try { floatClosed = sessionStorage.getItem('float_group_closed') === '1'; } catch (e) { floatClosed = false; }
+    if (!floatClosed) floatGroup.classList.add('is-visible');
+
+    var floatClose = $('#float-group-close');
+    if (floatClose) {
+      floatClose.addEventListener('click', function () {
+        floatClosed = true;
+        floatGroup.classList.remove('is-visible');
+        try { sessionStorage.setItem('float_group_closed', '1'); } catch (e) {}
+      });
+    }
+
+    var copyBtn = $('#float-group-copy');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        function done() {
+          copyBtn.textContent = '已复制';
+          copyBtn.classList.add('copied');
+          setTimeout(function () {
+            copyBtn.textContent = '复制';
+            copyBtn.classList.remove('copied');
+          }, 1600);
+        }
+        function legacyCopy() {
+          var ta = document.createElement('textarea');
+          ta.value = 'AFeiNice';
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText('AFeiNice').then(done, function () { legacyCopy(); done(); });
+        } else {
+          legacyCopy();
+          done();
+        }
+      });
+    }
+  }
 })();
