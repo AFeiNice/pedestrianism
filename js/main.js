@@ -354,6 +354,7 @@
 
   function resetForm() {
     form.reset();
+    applyChannel();
     peopleInput.value = '1';
     startDate.min = todayStr();
     endDate.min = '';
@@ -369,21 +370,56 @@
     $$('.field.invalid').forEach(function (el) { el.classList.remove('invalid'); });
   }
 
-  /* ---------------- 扫码渠道：出租车司机专属二维码 ?src=司机名 ---------------- */
+  /* ---------------- 扫码渠道：司机专属二维码 ?src=司机名[&phone=手机号] ---------------- */
   var CHANNEL_KEY = 'wutai_channel';
+  var CHANNEL_PHONE_KEY = 'wutai_channel_phone';
   var channelSrc = '';
+  var channelPhone = '';
   (function () {
     var m = window.location.search.match(/[?&]src=([^&]+)/);
+    var p = window.location.search.match(/[?&]phone=([^&]+)/);
     if (m) {
       try {
         channelSrc = decodeURIComponent(m[1]).trim();
         localStorage.setItem(CHANNEL_KEY, channelSrc);
       } catch (e) { channelSrc = ''; }
     }
+    if (p) {
+      try {
+        channelPhone = decodeURIComponent(p[1]).trim();
+        localStorage.setItem(CHANNEL_PHONE_KEY, channelPhone);
+      } catch (e) { channelPhone = ''; }
+    }
     if (!channelSrc) {
       try { channelSrc = localStorage.getItem(CHANNEL_KEY) || ''; } catch (e) { channelSrc = ''; }
     }
+    if (!channelPhone) {
+      try { channelPhone = localStorage.getItem(CHANNEL_PHONE_KEY) || ''; } catch (e) { channelPhone = ''; }
+    }
   })();
+
+  /* 识别到推荐人：自动带入并锁定不可改；未识别则留空，由用户手填兜底 */
+  function applyChannel() {
+    var referrerInput = $('#referrer');
+    if (!referrerInput) return;
+    var tip = $('#channel-tip');
+    if (channelSrc) {
+      referrerInput.value = channelSrc;
+      referrerInput.readOnly = true;
+      if (tip) {
+        var nameEl = $('#channel-name');
+        var phoneEl = $('#channel-phone-text');
+        if (nameEl) nameEl.textContent = channelSrc;
+        if (phoneEl) phoneEl.textContent = channelPhone ? '（' + channelPhone + '）' : '';
+        tip.classList.remove('is-hidden');
+      }
+    } else {
+      referrerInput.value = '';
+      referrerInput.readOnly = false;
+      if (tip) tip.classList.add('is-hidden');
+    }
+  }
+  applyChannel();
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -419,6 +455,7 @@
       if (gearChecked.length) params.append('租赁设备', gearChecked.join('、'));
     }
     if (channelSrc) params.append('来源渠道', channelSrc);
+    if (channelPhone) params.append('来源渠道电话', channelPhone);
     var referrer = $('#referrer').value.trim();
     if (referrer) params.append('推荐人', referrer);
     params.append('_subject', '五台山徒步新报名 · ' + nameVal + ' · ' + startDate.value + ' ~ ' + endDate.value);
