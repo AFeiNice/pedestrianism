@@ -371,12 +371,12 @@
   }
 
   /* ---------------- 扫码渠道：司机专属二维码 ?src=司机名[&phone=手机号] ---------------- */
-  var CHANNEL_KEY = 'wutai_channel';
-  var CHANNEL_PHONE_KEY = 'wutai_channel_phone';
   var channelSrc = '';
   var channelPhone = '';
-  // URL 参数优先；localStorage 持久化尽力而为，即使被禁用也不丢弃已解析的渠道值
+  // 渠道只认当前 URL：扫的码带了 src/phone 才生效，没带就清空，不沿用历史记录
   function detectChannel() {
+    channelSrc = '';
+    channelPhone = '';
     var m = window.location.search.match(/[?&]src=([^&]+)/);
     var p = window.location.search.match(/[?&]phone=([^&]+)/);
     if (m) {
@@ -384,18 +384,6 @@
     }
     if (p) {
       try { channelPhone = decodeURIComponent(p[1]).trim(); } catch (e) { channelPhone = ''; }
-    }
-    if (channelSrc) {
-      try { localStorage.setItem(CHANNEL_KEY, channelSrc); } catch (e) {}
-    }
-    if (channelPhone) {
-      try { localStorage.setItem(CHANNEL_PHONE_KEY, channelPhone); } catch (e) {}
-    }
-    if (!channelSrc) {
-      try { channelSrc = localStorage.getItem(CHANNEL_KEY) || ''; } catch (e) { channelSrc = ''; }
-    }
-    if (!channelPhone) {
-      try { channelPhone = localStorage.getItem(CHANNEL_PHONE_KEY) || ''; } catch (e) { channelPhone = ''; }
     }
   }
   detectChannel();
@@ -424,11 +412,12 @@
   applyChannel();
 
   // 微信/移动端页面回退或从缓存恢复时，URL 可能已是新扫码渠道而页面仍停留在旧推荐人；
-  // pageshow 时重新识别并按最新渠道同步，保证推荐人始终是最新一次扫码的司机
+  // pageshow 时重新识别并按当前 URL 同步（含清空）。仅当推荐人处于扫码锁定态才覆盖，
+  // 避免误清用户手填的推荐人
   window.addEventListener('pageshow', function () {
     detectChannel();
     var ref = $('#referrer');
-    if (ref && channelSrc && ref.value !== channelSrc) applyChannel();
+    if (ref && ref.readOnly && ref.value !== channelSrc) applyChannel();
   });
 
   form.addEventListener('submit', function (e) {
