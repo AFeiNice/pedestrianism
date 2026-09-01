@@ -378,17 +378,18 @@
   (function () {
     var m = window.location.search.match(/[?&]src=([^&]+)/);
     var p = window.location.search.match(/[?&]phone=([^&]+)/);
+    // URL 参数优先；localStorage 持久化尽力而为，即使被禁用也不丢弃已解析的渠道值
     if (m) {
-      try {
-        channelSrc = decodeURIComponent(m[1]).trim();
-        localStorage.setItem(CHANNEL_KEY, channelSrc);
-      } catch (e) { channelSrc = ''; }
+      try { channelSrc = decodeURIComponent(m[1]).trim(); } catch (e) { channelSrc = ''; }
     }
     if (p) {
-      try {
-        channelPhone = decodeURIComponent(p[1]).trim();
-        localStorage.setItem(CHANNEL_PHONE_KEY, channelPhone);
-      } catch (e) { channelPhone = ''; }
+      try { channelPhone = decodeURIComponent(p[1]).trim(); } catch (e) { channelPhone = ''; }
+    }
+    if (channelSrc) {
+      try { localStorage.setItem(CHANNEL_KEY, channelSrc); } catch (e) {}
+    }
+    if (channelPhone) {
+      try { localStorage.setItem(CHANNEL_PHONE_KEY, channelPhone); } catch (e) {}
     }
     if (!channelSrc) {
       try { channelSrc = localStorage.getItem(CHANNEL_KEY) || ''; } catch (e) { channelSrc = ''; }
