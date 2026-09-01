@@ -375,10 +375,10 @@
   var CHANNEL_PHONE_KEY = 'wutai_channel_phone';
   var channelSrc = '';
   var channelPhone = '';
-  (function () {
+  // URL 参数优先；localStorage 持久化尽力而为，即使被禁用也不丢弃已解析的渠道值
+  function detectChannel() {
     var m = window.location.search.match(/[?&]src=([^&]+)/);
     var p = window.location.search.match(/[?&]phone=([^&]+)/);
-    // URL 参数优先；localStorage 持久化尽力而为，即使被禁用也不丢弃已解析的渠道值
     if (m) {
       try { channelSrc = decodeURIComponent(m[1]).trim(); } catch (e) { channelSrc = ''; }
     }
@@ -397,7 +397,8 @@
     if (!channelPhone) {
       try { channelPhone = localStorage.getItem(CHANNEL_PHONE_KEY) || ''; } catch (e) { channelPhone = ''; }
     }
-  })();
+  }
+  detectChannel();
 
   /* 识别到推荐人：自动带入并锁定不可改；未识别则留空，由用户手填兜底 */
   function applyChannel() {
@@ -421,6 +422,14 @@
     }
   }
   applyChannel();
+
+  // 微信/移动端页面回退或从缓存恢复时，URL 可能已是新扫码渠道而页面仍停留在旧推荐人；
+  // pageshow 时重新识别并按最新渠道同步，保证推荐人始终是最新一次扫码的司机
+  window.addEventListener('pageshow', function () {
+    detectChannel();
+    var ref = $('#referrer');
+    if (ref && channelSrc && ref.value !== channelSrc) applyChannel();
+  });
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
