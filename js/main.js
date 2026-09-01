@@ -490,6 +490,7 @@
   });
 
   /* ---------------- 固定悬浮 · 徒步组队群微信（默认常显，可关闭） ---------------- */
+  try { if (/MicroMessenger/i.test(navigator.userAgent)) document.body.classList.add('is-wechat'); } catch (e) {}
   var floatGroup = $('#float-group');
   if (floatGroup) {
     var floatClosed = false;

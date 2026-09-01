@@ -1671,6 +1671,10 @@ select:disabled {
   pointer-events: auto;
   visibility: visible;
 }
+/* 微信内置浏览器底部工具条会遮住固定元素，微信内把悬浮卡上移避开 */
+body.is-wechat .float-group {
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+}
 .float-group-card {
   position: relative;
   display: flex;
