@@ -16,6 +16,7 @@
 输出：~/Desktop/driver-posters/ 下的 PNG 海报，文件名为「司机名-海报.png」。
 """
 import os
+from urllib.parse import quote
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
 
@@ -56,8 +57,10 @@ def make_poster(name, phone='', out=None):
     img = Image.open(BASE).convert('RGB')
     draw = ImageDraw.Draw(img)
 
-    # 1. 司机专属二维码（覆盖原二维码位置）
-    url = SITE + '?src=' + name + ('&phone=' + phone if phone else '')
+    # 1. 司机专属二维码（覆盖原二维码位置）。
+    #    中文名必须百分号编码成纯 ASCII：微信扫码时对二维码里的中文会识别出错
+    #    （表现为 src 被清空、只剩 phone），编码后微信能稳定解码，页面端再还原中文
+    url = SITE + '?src=' + quote(name) + ('&phone=' + quote(phone) if phone else '')
     qr = qrcode.QRCode(
         version=None,
         error_correction=qrcode.constants.ERROR_CORRECT_M,
