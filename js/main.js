@@ -369,6 +369,22 @@
     $$('.field.invalid').forEach(function (el) { el.classList.remove('invalid'); });
   }
 
+  /* ---------------- 扫码渠道：出租车司机专属二维码 ?src=司机名 ---------------- */
+  var CHANNEL_KEY = 'wutai_channel';
+  var channelSrc = '';
+  (function () {
+    var m = window.location.search.match(/[?&]src=([^&]+)/);
+    if (m) {
+      try {
+        channelSrc = decodeURIComponent(m[1]).trim();
+        localStorage.setItem(CHANNEL_KEY, channelSrc);
+      } catch (e) { channelSrc = ''; }
+    }
+    if (!channelSrc) {
+      try { channelSrc = localStorage.getItem(CHANNEL_KEY) || ''; } catch (e) { channelSrc = ''; }
+    }
+  })();
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     feedback.classList.remove('show');
@@ -402,6 +418,9 @@
       var gearChecked = $$('input[name="gear"]:checked').map(function (g) { return g.value; });
       if (gearChecked.length) params.append('租赁设备', gearChecked.join('、'));
     }
+    if (channelSrc) params.append('来源渠道', channelSrc);
+    var referrer = $('#referrer').value.trim();
+    if (referrer) params.append('推荐人', referrer);
     params.append('_subject', '五台山徒步新报名 · ' + nameVal + ' · ' + startDate.value + ' ~ ' + endDate.value);
 
     setLoading(true);
