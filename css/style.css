@@ -1101,12 +1101,20 @@ section {
   }
 }
 
-/* 日期输入：保留原生日历图标（兼容各浏览器），统一外观 */
-.field input[type="date"] {
-  appearance: auto;
-  -webkit-appearance: auto;
+/* 日期输入：保留原生日历图标（兼容各浏览器），统一外观。
+   微信 iOS /部分系统会给原生 date 控件内置较大的 min-width，
+   用 flex 弹性收缩（width:0 + flex:1 + min-width:0!important）强制不超出容器 */
+.date-wrap {
+  display: flex;
   width: 100%;
   min-width: 0;
+}
+.date-wrap input[type="date"] {
+  appearance: auto;
+  -webkit-appearance: auto;
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0 !important;
   max-width: 100%;
   background: var(--bg);
   border: 1.5px solid transparent;
